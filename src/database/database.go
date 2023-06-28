@@ -63,6 +63,7 @@ type Images struct {
 	Name        string `db:"image_name"`
 	Description string `db:"image_description"`
 	Path        string `db:"image_path"`
+	Metadata    string `db:"metadata"`
 	Type        string `db:"type"`
 	Size        uint   `db:"size"`
 	CreatedOn   string `db:"created_on"`

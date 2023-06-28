@@ -105,7 +105,7 @@ func SearchPost(w http.ResponseWriter, r *http.Request) {
 	var images []database.Images
 	for rows.Next() {
 		var img database.Images
-		err := rows.Scan(&img.ID, &img.User_ID, &img.Name, &img.Description, &img.Path, &img.Type, &img.Size, &img.CreatedOn, &img.UpdatedOn)
+		err := rows.Scan(&img.ID, &img.User_ID, &img.Name, &img.Description, &img.Path, &img.Metadata, &img.Type, &img.Size, &img.CreatedOn, &img.UpdatedOn)
 		utils.CatchErr(err)
 		images = append(images, img)
 	}
