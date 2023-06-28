@@ -93,6 +93,19 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 	utils.CatchErr(err)
 
 	go func() {
+		stmt, err := database.DB.Prepare("UPDATE Images SET metadata = ? WHERE image_id = ?")
+
+		utils.CatchErr(err)
+		defer stmt.Close()
+
+		metadata := utils.GetMetaData(file_path)
+
+		_, err = stmt.Exec(metadata, imageId)
+		utils.CatchErr(err)
+
+	}()
+
+	go func() {
 		rows, err := database.DB.Query("SELECT * FROM Tags")
 		utils.CatchErr(err)
 		var tagsDb []database.TagDb

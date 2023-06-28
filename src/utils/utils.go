@@ -75,6 +75,18 @@ func MakeMediaThumbnail(file_location string, file_type string) {
 	}
 }
 
+func GetMetaData(path string) string {
+	cmdStruct := exec.Command("exiftool", path)
+
+	metadata, err := cmdStruct.Output()
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+
+	return string(metadata)
+}
+
 func CreateDirIfNotExist(dir string) {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		err = os.MkdirAll(dir, 0755)
