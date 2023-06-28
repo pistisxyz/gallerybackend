@@ -8,6 +8,12 @@ import (
 	"strconv"
 )
 
+func ImagesHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		ImagesGet(w, r)
+	}
+}
+
 func ImagesGet(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 

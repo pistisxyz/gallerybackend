@@ -14,6 +14,12 @@ import (
 	"strings"
 )
 
+func UploadHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		UploadFile(w, r)
+	}
+}
+
 var UPLOAD_DIR string
 
 func UploadFile(w http.ResponseWriter, r *http.Request) {

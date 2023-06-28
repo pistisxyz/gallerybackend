@@ -7,27 +7,6 @@ import (
 	"strings"
 )
 
-func UploadHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
-		UploadFile(w, r)
-	}
-}
-
-func ImagesHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		ImagesGet(w, r)
-	}
-}
-
-func SearchHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
-		SearchPost(w, r)
-	}
-	if r.Method == http.MethodGet {
-		SearchGet(w, r)
-	}
-}
-
 func CORS(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Access-Control-Allow-Origin", "*")

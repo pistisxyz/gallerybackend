@@ -10,6 +10,15 @@ import (
 	"strings"
 )
 
+func SearchHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		SearchPost(w, r)
+	}
+	if r.Method == http.MethodGet {
+		SearchGet(w, r)
+	}
+}
+
 func SearchGet(w http.ResponseWriter, r *http.Request) {
 	type Tag struct {
 		TagName string `json:"tag_name"`
