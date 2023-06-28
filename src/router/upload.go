@@ -16,13 +16,13 @@ import (
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
-		UploadFile(w, r)
+		uploadFile(w, r)
 	}
 }
 
 var UPLOAD_DIR string
 
-func UploadFile(w http.ResponseWriter, r *http.Request) {
+func uploadFile(w http.ResponseWriter, r *http.Request) {
 	// Maximum upload of 10 MB files
 	// r.ParseMultipartForm(100 << 20)
 

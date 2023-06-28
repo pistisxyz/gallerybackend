@@ -12,14 +12,14 @@ import (
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
-		SearchPost(w, r)
+		searchPost(w, r)
 	}
 	if r.Method == http.MethodGet {
-		SearchGet(w, r)
+		searchGet(w, r)
 	}
 }
 
-func SearchGet(w http.ResponseWriter, r *http.Request) {
+func searchGet(w http.ResponseWriter, r *http.Request) {
 	type Tag struct {
 		TagName string `json:"tag_name"`
 	}
@@ -43,7 +43,7 @@ func SearchGet(w http.ResponseWriter, r *http.Request) {
 	utils.CatchErr(err)
 }
 
-func SearchPost(w http.ResponseWriter, r *http.Request) {
+func searchPost(w http.ResponseWriter, r *http.Request) {
 
 	tagsRaw := r.FormValue("tags")
 

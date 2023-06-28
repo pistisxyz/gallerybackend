@@ -10,11 +10,11 @@ import (
 
 func ImagesHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		ImagesGet(w, r)
+		imagesGet(w, r)
 	}
 }
 
-func ImagesGet(w http.ResponseWriter, r *http.Request) {
+func imagesGet(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	page, err := strconv.Atoi(r.URL.Query().Get("page"))
