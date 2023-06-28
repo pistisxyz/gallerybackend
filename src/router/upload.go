@@ -93,6 +93,20 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 	utils.CatchErr(err)
 
 	go func() {
+		fileInfo, err := os.Stat(file_path)
+		utils.CatchErr(err)
+
+		stmt, err := database.DB.Prepare("UPDATE Images SET size = ? WHERE image_id = ?")
+
+		utils.CatchErr(err)
+		defer stmt.Close()
+
+		_, err = stmt.Exec(fileInfo.Size(), imageId)
+		utils.CatchErr(err)
+
+	}()
+
+	go func() {
 		stmt, err := database.DB.Prepare("UPDATE Images SET metadata = ? WHERE image_id = ?")
 
 		utils.CatchErr(err)
