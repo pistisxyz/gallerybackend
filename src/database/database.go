@@ -14,6 +14,7 @@ import (
 
 var DB *sql.DB
 var AuthRdb *redis.Client
+var DataRdb *redis.Client
 
 func RedisGetAuth(auth_token string) string { // TODO: add expired token error and logout (login prompt)
 	ctx := context.Background()
@@ -49,6 +50,11 @@ func ConnectToRdb() {
 		Addr:     os.Getenv("RDB_ADDR"),
 		Password: os.Getenv("RDB_PASSWORD"),
 		DB:       1,
+	})
+	DataRdb = redis.NewClient(&redis.Options{
+		Addr:     os.Getenv("RDB_ADDR"),
+		Password: os.Getenv("RDB_PASSWORD"),
+		DB:       2,
 	})
 }
 
