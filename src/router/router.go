@@ -48,13 +48,13 @@ func AUTH_CHECK(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func AuthMiddleware(next http.Handler) http.Handler {
+func AuthMiddleware(next http.Handler) http.Handler { //TODO: fix/move share handle
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cookies := r.Cookies()
 		var Auth_header string
 		// Loop through the cookies and print their names and values
 		for _, cookie := range cookies {
-			if cookie.Name == "token" {
+			if cookie.Name == "token" || cookie.Name == "shareToken" {
 				Auth_header = cookie.Value
 			}
 		}

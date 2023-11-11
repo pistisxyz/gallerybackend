@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
 
 	"gallery/src/database"
 	. "gallery/src/router"
@@ -29,15 +28,6 @@ func _init() {
 	database.ConnectToRdb()
 }
 
-func getMetaData(file_location string) {
-	cmdStruct := exec.Command("exiftool", file_location)
-
-	_, err := cmdStruct.Output()
-	if err != nil {
-		fmt.Println(err)
-	}
-}
-
 func main() {
 	_init()
 
@@ -48,6 +38,8 @@ func main() {
 	http.HandleFunc("/search", CORS(AUTH_CHECK(SearchHandler)))
 
 	http.HandleFunc("/profile", CORS(AUTH_CHECK(ProfileHandler)))
+
+	http.HandleFunc("/tags", CORS(AUTH_CHECK(TagsHandler)))
 
 	// Register the wrapped file server to handle requests at the "/image/" URL path
 	http.Handle("/image/", http.StripPrefix("/image/", AuthMiddleware(http.FileServer(http.Dir("./uploaded")))))
