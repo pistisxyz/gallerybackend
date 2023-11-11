@@ -75,10 +75,8 @@ func MakeMediaThumbnail(file_location string, file_type string) {
 	}
 }
 
-var EXIFTOOL = os.Getenv("EXIFTOOL")
-
 func GetMetaData(path string) string {
-	cmdStruct := exec.Command(EXIFTOOL, path)
+	cmdStruct := exec.Command(os.Getenv("EXIFTOOL"), path)
 
 	metadata, err := cmdStruct.Output()
 	if err != nil {

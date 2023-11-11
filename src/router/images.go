@@ -30,7 +30,7 @@ func imagesGet(w http.ResponseWriter, r *http.Request) {
 
 	offset := (page - 1) * page_length
 
-	stmt, err := database.DB.Prepare("SELECT user_id, image_name, image_description, image_path, type, size FROM Images LIMIT ? OFFSET ?")
+	stmt, err := database.DB.Prepare("SELECT user_id, image_name, image_description, image_path, metadata, type, size FROM Images LIMIT ? OFFSET ?")
 	utils.CatchErr(err)
 	defer stmt.Close()
 
@@ -46,6 +46,7 @@ func imagesGet(w http.ResponseWriter, r *http.Request) {
 		Name        string `db:"image_name"`
 		Description string `db:"image_description"`
 		Path        string `db:"image_path"`
+		Metadata    string `db:"metadata"`
 		Type        string `db:"type"`
 		Size        uint   `db:"size"`
 	}
@@ -53,7 +54,7 @@ func imagesGet(w http.ResponseWriter, r *http.Request) {
 	var images []Images
 	for rows.Next() {
 		var img Images
-		err := rows.Scan(&img.User_ID, &img.Name, &img.Description, &img.Path, &img.Type, &img.Size)
+		err := rows.Scan(&img.User_ID, &img.Name, &img.Description, &img.Path, &img.Metadata, &img.Type, &img.Size)
 		if err != nil {
 			utils.CatchErr(err)
 		}
