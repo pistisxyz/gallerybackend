@@ -40,7 +40,7 @@ const SQL_STRING = `WITH TagImages AS (
         i.size,
         i.createdOn,
         i.updatedOn,
-        ROW_NUMBER() OVER (PARTITION BY t.tag_id ORDER BY i.image_id) AS row_num
+        ROW_NUMBER() OVER (PARTITION BY t.tag_id ORDER BY RAND()) AS row_num
     FROM
         Tags t
     LEFT JOIN
