@@ -58,8 +58,8 @@ func ContainsString(arr []string, target string) bool {
 
 func MakeMediaThumbnail(file_location string, file_type string) {
 
-	width := "250"
-	height := "250"
+	width := "400"
+	height := "400"
 
 	var cmdStruct *exec.Cmd
 	switch file_type {
