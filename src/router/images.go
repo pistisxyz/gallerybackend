@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 func ImagesHandler(w http.ResponseWriter, r *http.Request) {
@@ -93,15 +94,16 @@ func imageDelete(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 400)
 		return
 	}
-	id := database.RedisGetAuth(r.Header.Get("Authorization"))
+	id := database.RedisGetAuth(strings.Split(r.Header.Get("Authorization"), " ")[1])
 	path := string(bytes)
-	query, _ := database.DB.Prepare("UPDATE images SET deleted = 1 WHERE image_path = ? AND user_id = ?")
+	query, _ := database.DB.Prepare("UPDATE Images SET deleted = 1 WHERE image_path = ? AND user_id = ?")
 	defer query.Close()
 	res, err := query.Exec(path, id)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
-	count, _ := res.RowsAffected()
+	count, err := res.RowsAffected()
+	utils.CatchErr(err)
 	if count == 0 {
 		http.Error(w, "You are not the owner of the photo", http.StatusUnauthorized)
 		return
