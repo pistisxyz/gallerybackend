@@ -37,15 +37,20 @@ func main() {
 
 	http.HandleFunc("/search", CORS(AUTH_CHECK(SearchHandler)))
 
+	http.HandleFunc("/notes", CORS(AUTH_CHECK(NotesHandler)))
+
 	http.HandleFunc("/profile", CORS(AUTH_CHECK(ProfileHandler)))
 
 	http.HandleFunc("/tags", CORS(AUTH_CHECK(TagsHandler)))
 
 	// Register the wrapped file server to handle requests at the "/image/" URL path
-	http.Handle("/image/", http.StripPrefix("/image/", AuthMiddleware(http.FileServer(http.Dir("./uploaded")))))
+	http.Handle("/file/", http.StripPrefix("/file/", AuthMiddleware(http.FileServer(http.Dir("./uploaded")))))
 
 	// Register the wrapped file server to handle requests at the "/compressed/" URL path
 	http.Handle("/compressed/", http.StripPrefix("/compressed/", AuthMiddleware(http.FileServer(http.Dir("./compressed")))))
+
+	// Register the wrapped file server to handle requests at the "/share/" URL path
+	http.Handle("/share/file/", http.StripPrefix("/share/file/", ShareAuthMiddleware(http.FileServer(http.Dir("./compressed")))))
 
 	fmt.Printf("Starting server at port %v\n", os.Getenv("PORT"))
 

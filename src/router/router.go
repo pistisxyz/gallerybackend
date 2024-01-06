@@ -34,7 +34,7 @@ func AUTH_CHECK(next http.HandlerFunc) http.HandlerFunc {
 		token_arr := strings.Split(Auth_header, " ")
 
 		if len(token_arr) < 1 {
-			fmt.Fprint(w, "error getting auth token... try to log out and log back in!")
+			fmt.Fprint(w, "error getting auth token... try to logout and log back in!")
 			return
 		}
 
@@ -54,7 +54,33 @@ func AuthMiddleware(next http.Handler) http.Handler { //TODO: fix/move share han
 		var Auth_header string
 		// Loop through the cookies and print their names and values
 		for _, cookie := range cookies {
-			if cookie.Name == "token" || cookie.Name == "shareToken" {
+			if cookie.Name == "token" {
+				Auth_header = cookie.Value
+			}
+		}
+
+		if Auth_header == "" {
+			fmt.Fprint(w, "not logged in")
+			return
+		}
+
+		token := database.RedisGetAuth(Auth_header)
+
+		if token == "" {
+			fmt.Fprint(w, "Expired Session!")
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
+func ShareAuthMiddleware(next http.Handler) http.Handler { //TODO: fix/move share handle
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		cookies := r.Cookies()
+		var Auth_header string
+		// Loop through the cookies and print their names and values
+		for _, cookie := range cookies {
+			if cookie.Name == "shareToken" {
 				Auth_header = cookie.Value
 			}
 		}

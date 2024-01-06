@@ -81,6 +81,7 @@ func searchPost(w http.ResponseWriter, r *http.Request) {
 		JOIN Image_Tags it ON i.image_id = it.image_id
 		JOIN Tags t ON it.tag_id = t.tag_id
 		WHERE t.tag_name IN (?` + strings.Repeat(",?", len(tags)-1) + `)
+		AND i.deleted = FALSE
 		LIMIT ? OFFSET ?
 	`)
 	utils.CatchErr(err)
@@ -92,6 +93,7 @@ func searchPost(w http.ResponseWriter, r *http.Request) {
 		JOIN Image_Tags it ON i.image_id = it.image_id
 		JOIN Tags t ON it.tag_id = t.tag_id
 		WHERE t.tag_name IN (?` + strings.Repeat(",?", len(tags)-1) + `)
+		AND i.deleted = FALSE
 	`)
 	utils.CatchErr(err)
 	defer countStmt.Close()

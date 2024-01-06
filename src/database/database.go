@@ -21,7 +21,13 @@ func RedisGetAuth(auth_token string) string { // TODO: add expired token error a
 	user_map := AuthRdb.HGetAll(ctx, auth_token).Val()
 
 	return user_map["user:id"]
+}
 
+func RedisGetAuthName(auth_token string) string { // TODO: add expired token error and logout (login prompt)
+	ctx := context.Background()
+	user_map := AuthRdb.HGetAll(ctx, auth_token).Val()
+
+	return user_map["username"]
 }
 
 func ConnectToDb() {
